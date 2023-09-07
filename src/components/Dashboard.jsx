@@ -84,8 +84,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-green-500 min-h-screen flex flex-col justify-center items-center sm:flex-row">
-      <div className="bg-green-200 p-8 rounded-lg shadow-md text-center sm:text-left">
+    <div className="bg-green-500 min-h-screen flex flex-col justify-center items-center">
+      <div className="bg-green-200 p-8 rounded-lg shadow-md text-center">
         <h1 className="text-2xl">Focus on your goal!</h1>
         <p className="text-xl">{name}</p>
         <p>{email}</p>
@@ -97,36 +97,38 @@ const Dashboard = () => {
         </button>
       </div>
 
-      <div className="flex flex-col justify-center align-middle p-8 sm:p-14">
-        <div className="text-2xl mb-4">
-          {isBreak ? "Break Time" : "Work Time"}
-        </div>
-        <div className="text-3xl">
-          {minutes < 10 ? `0${minutes}` : minutes}:
-          {seconds < 10 ? `0${seconds}` : seconds}
-        </div>
-        <div className="flex mt-4">
-          {!isRunning ? (
+      <div className="mt-8 w-full max-w-md">
+        <div className="bg-white p-8 rounded-lg shadow-md text-center">
+          <div className="text-2xl mb-4">
+            {isBreak ? "Break Time" : "Work Time"}
+          </div>
+          <div className="text-3xl">
+            {minutes < 10 ? `0${minutes}` : minutes}:
+            {seconds < 10 ? `0${seconds}` : seconds}
+          </div>
+          <div className="flex mt-4">
+            {!isRunning ? (
+              <button
+                onClick={startTimer}
+                className="bg-green-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-green-600 focus:outline-none"
+              >
+                Start
+              </button>
+            ) : (
+              <button
+                onClick={pauseTimer}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-yellow-600 focus:outline-none"
+              >
+                Pause
+              </button>
+            )}
             <button
-              onClick={startTimer}
-              className="bg-green-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-green-600 focus:outline-none"
+              onClick={resetTimer}
+              className="bg-red-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-red-600 focus:outline-none"
             >
-              Start
+              Reset
             </button>
-          ) : (
-            <button
-              onClick={pauseTimer}
-              className="bg-yellow-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-yellow-600 focus:outline-none"
-            >
-              Pause
-            </button>
-          )}
-          <button
-            onClick={resetTimer}
-            className="bg-red-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-red-600 focus:outline-none"
-          >
-            Reset
-          </button>
+          </div>
         </div>
       </div>
     </div>
