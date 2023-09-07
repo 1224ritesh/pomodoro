@@ -9,10 +9,12 @@ const Dashboard = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const [minutes, setMinutes] = useState(25);
+  const [minutes, setMinutes] = useState(25); 
   const [seconds, setSeconds] = useState(0);
   const [isBreak, setIsBreak] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+  const [showWorkAlert, setShowWorkAlert] = useState(false);
+  const [showBreakAlert, setShowBreakAlert] = useState(false);
 
   const getUser = async () => {
     try {
@@ -36,9 +38,44 @@ const Dashboard = () => {
 
   const resetTimer = () => {
     setIsRunning(false);
-    setMinutes(25);
+    setMinutes(25); 
     setSeconds(0);
     setIsBreak(false);
+  };
+
+  const handleContinueWork = () => {
+    setShowWorkAlert(false);
+    setShowBreakAlert(false); 
+    setIsBreak(false);
+    setMinutes(25); 
+    setSeconds(0);
+    setIsRunning(true);
+  };
+
+  const handleTakeBreak = () => {
+    if (isBreak) {
+      // Handle continuing the break (Continue Break)
+      setShowBreakAlert(false);
+      setIsBreak(false);
+      setMinutes(25); 
+      setSeconds(0);
+      setIsRunning(true);
+    } else {
+      if (!isRunning) {
+        // Handle taking a break during work time (Take a Break)
+        setShowWorkAlert(false);
+        setIsBreak(true);
+        setMinutes(5); 
+        setSeconds(0);
+        setIsRunning(true);
+      } else {
+        // Handle taking a break when the work time is over
+        setShowBreakAlert(false);
+        setIsBreak(true);
+        setMinutes(5); 
+        setIsRunning(false);
+      }
+    }
   };
 
   useEffect(() => {
@@ -58,12 +95,13 @@ const Dashboard = () => {
           clearInterval(timerInterval);
           setIsRunning(false);
 
-          if (isBreak) {
-            setMinutes(25);
+          if (!isBreak) {
+            
+            setShowWorkAlert(true);
           } else {
-            setMinutes(5);
+            
+            setShowBreakAlert(true);
           }
-          setIsBreak(!isBreak);
         } else if (seconds === 0) {
           setMinutes(minutes - 1);
           setSeconds(59);
@@ -110,27 +148,73 @@ const Dashboard = () => {
             {!isRunning ? (
               <button
                 onClick={startTimer}
-                className="bg-green-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-green-600 focus:outline-none"
+                className="bg-green-500 text-white px-4 py-2 rounded-full mx-auto hover:bg-green-600 focus:outline-none"
               >
                 Start
               </button>
             ) : (
               <button
                 onClick={pauseTimer}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-yellow-600 focus:outline-none"
+                className="bg-yellow-500 text-white px-4 py-2 rounded-full mx-auto hover:bg-yellow-600 focus:outline-none"
               >
                 Pause
               </button>
             )}
             <button
               onClick={resetTimer}
-              className="bg-red-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-red-600 focus:outline-none"
+              className="bg-red-500 text-white px-4 py-2 rounded-full mx-auto hover:bg-red-600 focus:outline-none"
             >
               Reset
             </button>
           </div>
         </div>
       </div>
+
+      {showWorkAlert && (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg shadow-md text-center">
+            <p className="text-2xl mb-4">Work time is completed.</p>
+            <p>Want to continue working or take a break?</p>
+            <div className="mt-4">
+              <button
+                onClick={handleContinueWork}
+                className="bg-green-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-green-600 focus:outline-none"
+              >
+                Continue Working
+              </button>
+              <button
+                onClick={handleTakeBreak}
+                className="bg-blue-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-blue-600 focus:outline-none"
+              >
+                Take a Break
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBreakAlert && (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg shadow-md text-center">
+            <p className="text-2xl mb-4">Break time is over.</p>
+            <p>Want to continue the break or start working?</p>
+            <div className="mt-4">
+              <button
+                onClick={handleContinueWork}
+                className="bg-green-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-green-600 focus:outline-none"
+              >
+                Start Working
+              </button>
+              <button
+                onClick={handleTakeBreak}
+                className="bg-blue-500 text-white px-4 py-2 rounded-full mx-2 hover:bg-blue-600 focus:outline-none"
+              >
+                Continue Break
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
