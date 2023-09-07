@@ -84,7 +84,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-green-500 min-h-screen flex flex-col justify-center items-center">
+    <div className="bg-green-300 min-h-screen flex flex-col justify-center items-center">
       <div className="bg-green-200 p-8 rounded-lg shadow-md text-center">
         <h1 className="text-2xl">Focus on your goal!</h1>
         <p className="text-xl">{name}</p>
