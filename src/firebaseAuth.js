@@ -5,7 +5,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCXnsMC4yDC0LMGug4FBNFGFpbdERkTOZc",
+    apiKey: import.meta.env.VITE_API_KEY,
     authDomain: "pomodoro-f8ccf.firebaseapp.com",
     projectId: "pomodoro-f8ccf",
     storageBucket: "pomodoro-f8ccf.appspot.com",
