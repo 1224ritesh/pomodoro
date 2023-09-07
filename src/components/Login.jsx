@@ -74,7 +74,7 @@ const Login = () => {
             <div className="text-center text-gray-400">
               Dont&apos;have an account?
               <Link to="/register">
-                <span className="font-bold text-black">Regster </span>
+                <span className="font-bold text-black">Register </span>
               </Link>
             </div>
           </div>
